@@ -1,0 +1,128 @@
+inherit_from:
+- ".rubocop_todo.yml"
+inherit_mode:
+  merge:
+  - Exclude
+require:
+- rubocop-capybara
+plugins:
+- rubocop-minitest
+- rubocop-performance
+- rubocop-rake
+- rubocop-rspec
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.1
+  Exclude:
+  - vendor/**/*
+  - local/**/*
+  - tmp/**/*
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+Layout/SpaceInsideBlockBraces:
+  EnforcedStyleForEmptyBraces: space
+Lint/AmbiguousOperator:
+  Exclude:
+  - Rakefile
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: false
+Metrics/AbcSize:
+  Max: 100
+Metrics/BlockLength:
+  Max: 50
+Metrics/BlockNesting:
+  Max: 4
+Metrics/ClassLength:
+  Max: 500
+Metrics/CyclomaticComplexity:
+  Max: 20
+Metrics/MethodLength:
+  Max: 100
+Metrics/ModuleLength:
+  Max: 500
+Metrics/PerceivedComplexity:
+  Max: 30
+Minitest/EmptyLineBeforeAssertionMethods:
+  Enabled: false
+Naming/MethodParameterName:
+  Enabled: false
+Performance/CollectionLiteralInLoop:
+  Exclude:
+  - spec/**/*
+Performance/TimesMap:
+  Exclude:
+  - spec/**/*
+RSpec/ExampleLength:
+  Max: 50
+  CountAsOne:
+  - array
+  - heredoc
+RSpec/NamedSubject:
+  Enabled: false
+Rake/Desc:
+  Enabled: false
+Style/AccessModifierDeclarations:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/CombinableLoops:
+  Exclude:
+  - spec/**/*
+Style/Documentation:
+  Enabled: false
+Style/EmptyCaseCondition:
+  Enabled: false
+Style/FormatString:
+  Enabled: false
+Style/FormatStringToken:
+  Enabled: false
+Style/HashSyntax:
+  Exclude:
+  - Rakefile
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+  AllowedPatterns:
+  - "^assert(_|$)"
+  - "^refute(_|$)"
+  AllowedMethods:
+  - warn
+  - raise
+  - fail
+  - yield
+  - to_enum
+  - puts
+  - public
+  - private
+  - protected
+  - attr_accessor
+  - attr_reader
+  - attr_writer
+  - exit
+  - include
+  - require
+  - require_relative
+  - catch
+  - throw
+  - describe
+  - skip
+  - recordable
+  - alias_method
+Style/Semicolon:
+  Enabled: false
+Style/SignalException:
+  Enabled: false
+Style/SpecialGlobalVars:
+  EnforcedStyle: use_builtin_english_names
+Style/StringLiterals:
+  Enabled: false
+Style/SymbolArray:
+  Exclude:
+  - Rakefile
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
+Style/TrailingCommaInArguments:
+  Enabled: false
+Style/TrailingUnderscoreVariable:
+  Enabled: false

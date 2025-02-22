@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
+
+require 'ruptr/rake_task'
+require 'rubocop/rake_task'
+
+Ruptr::RakeTask.new { |c| c.verbosity = 1 }
+RuboCop::RakeTask.new
+
+task default: :ruptr
