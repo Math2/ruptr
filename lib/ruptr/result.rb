@@ -10,20 +10,26 @@ module Ruptr
     VALID_STATUSES = %i[passed skipped failed blocked].freeze
 
     def initialize(status,
-                   assertions: 0, user_time: nil, system_time: nil, exception: nil,
+                   exception: nil,
+                   assertions: 0,
+                   user_time: nil, system_time: nil,
                    captured_stdout: nil, captured_stderr: nil)
       raise ArgumentError unless VALID_STATUSES.include?(status)
       raise ArgumentError if exception && status == :passed
       @status = status
+      @exception = exception
       @assertions = assertions
-      @captured_stdout = captured_stdout
-      @captured_stderr = captured_stderr
       @user_time = user_time
       @system_time = system_time
-      @exception = exception
+      @captured_stdout = captured_stdout
+      @captured_stderr = captured_stderr
     end
 
-    attr_reader :status, :assertions, :user_time, :system_time, :exception, :captured_stdout, :captured_stderr
+    attr_reader :status,
+                :exception,
+                :assertions,
+                :user_time, :system_time,
+                :captured_stdout, :captured_stderr
 
     def passed? = @status == :passed
     def skipped? = @status == :skipped

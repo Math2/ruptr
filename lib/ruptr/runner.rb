@@ -48,7 +48,9 @@ module Ruptr
       end
       assertions = context.assertions_count
       TestResult.new(status,
-                     user_time:, system_time:, assertions:, exception:,
+                     exception:,
+                     assertions:,
+                     user_time:, system_time:,
                      captured_stdout:, captured_stderr:)
     end
   end
