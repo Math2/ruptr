@@ -19,6 +19,18 @@ module Ruptr
         test_suite { }
       end
 
+      it "can run test suite with a single passing test case" do
+        test_suite { test_case { } }
+      end
+
+      it "can run test suite with a single skipping test case" do
+        test_suite { expect_skipped test_case { raise SkippedException } }
+      end
+
+      it "can run test suite with a single failing test case" do
+        test_suite { expect_failed test_case { fail } }
+      end
+
       describe "output capture" do
         %i[passed failed skipped].each do |status|
           it "can capture #{status} test case output" do
@@ -111,6 +123,34 @@ module Ruptr
         report.each_test_case_result do |_tc, tr|
           assert_equal 'failed dummy test case', tr.exception.message if tr.failed?
         end
+      end
+
+      it "can run a test suite with deeply nested wrapping test groups" do
+        depth = 100
+        check1 = check2 = 0
+        test_suite do
+          rec = lambda do |n|
+            if n.zero?
+              test_case do
+                assert_equal [depth, (depth * (depth + 1)) / 2], [check1, check2]
+              end
+            else
+              test_group do
+                group_wrap do |&wrap|
+                  # NOTE: Group wrapper blocks always run in the same process.
+                  check1 += 1
+                  check2 += n
+                  wrap.call
+                  check2 -= n
+                end
+                rec.call(n - 1)
+              end
+            end
+          end
+          rec.call(depth)
+        end
+        report # run test suite before the below checks
+        assert_equal [depth, 0], [check1, check2]
       end
     end
 
