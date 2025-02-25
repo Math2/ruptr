@@ -1915,9 +1915,8 @@ module Ruptr
                   check_report(passed: 1, asserts: 0)
                 end
 
-                it "warns" do
-                  report
-                  assert_predicate report.each_test_case_result.first[1], :captured_stderr?
+                it "counts an ineffective assertion" do
+                  check_report(passed: 1, ineffective_asserts: 1)
                 end
 
                 it "stores trial values" do
@@ -1948,15 +1947,14 @@ module Ruptr
                     check_report(passed: 1, asserts: 1)
                   end
 
+                  it "does not count an ineffective assertion" do
+                    check_report(passed: 1, ineffective_asserts: 0)
+                  end
+
                   it "stores the same trial value" do
                     report
                     golden_store.accept_trial
                     assert_equal 123, golden_store.get_golden(golden_key([nil, "test"]))
-                  end
-
-                  it "does not warn" do
-                    report
-                    assert_empty report.each_test_case_result.filter { |_, tr| tr.captured_stderr? }
                   end
                 end
 
@@ -1975,15 +1973,14 @@ module Ruptr
                     check_report(failed: 1, asserts: 1)
                   end
 
+                  it "does not count an ineffective assertion" do
+                    check_report(failed: 1, ineffective_asserts: 0)
+                  end
+
                   it "stores new trial value" do
                     report
                     golden_store.accept_trial
                     assert_equal 456, golden_store.get_golden(golden_key([nil, "test"]))
-                  end
-
-                  it "does not warn" do
-                    report
-                    assert_empty report.each_test_case_result.filter { |_, tr| tr.captured_stderr? }
                   end
                 end
 

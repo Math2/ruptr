@@ -32,8 +32,8 @@ module Ruptr
       assertions_golden_store.set_trial(assertion_golden_key(k), v)
     end
 
-    def assertion_golden_value_missing(k)
-      warn "golden value missing for key #{k.inspect}"
+    def assertion_golden_value_missing(_k)
+      self.ruptr_ineffective_assertions_count += 1
     end
 
     def assertion_yield_golden_value(k)
