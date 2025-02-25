@@ -6,6 +6,7 @@ require_relative 'spec_helper'
 require_relative 'runner_helpers'
 require 'ruptr/runner'
 require 'ruptr/report'
+require 'tempfile'
 
 module Ruptr
   RSpec.describe Runner do
@@ -33,6 +34,43 @@ module Ruptr
 
       it "considers test case without a block to be skipped" do
         test_suite { expect_skipped test_case }
+      end
+
+      describe "context object" do
+        it "can increase test case assertions count" do
+          tc1 = tc2 = nil
+          test_suite do
+            tc1 = test_case { |ctx| ctx.assertions_count += 123 }
+            tc2 = test_case { |ctx| ctx.assertions_count += 456 }
+          end
+          assert_equal 123, report[tc1].assertions
+          assert_equal 456, report[tc2].assertions
+        end
+
+        it "can increase wrapping test group assertions count" do
+          tg = tc = nil
+          test_suite do
+            tg = test_group do
+              group_wrap do |ctx, &wrap|
+                ctx.assertions_count += 120
+                wrap.call
+                ctx.assertions_count += 3
+              end
+              tc = test_case { |ctx| ctx.assertions_count += 456 }
+            end
+          end
+          assert_equal 123, report[tg].assertions
+          assert_equal 456, report[tc].assertions
+        end
+      end
+
+      it "invokes the test case's block only once" do
+        Tempfile.create do |io|
+          test_suite { test_case { io.puts("ran") } }
+          report # run test suite
+          io.rewind
+          assert_equal "ran\n", io.read
+        end
       end
 
       describe "output capture" do

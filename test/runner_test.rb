@@ -114,14 +114,20 @@ module Ruptr
 
       def make_test_case(expected_bitmap)
         @remaining_test_cases -= 1
+        ran = false
         TestCase.new do
+          refute ran
+          ran = true # ineffective with forking runners...
           check_active_bitmap(expected_bitmap)
         end
       end
 
       def make_test_group(expected_bitmap, state_index)
         @remaining_test_groups -= 1
+        ran = false
         TestGroup.new do |&wrap|
+          refute ran
+          ran = true
           check_active_bitmap(expected_bitmap)
           begin
             @active_bitmap ^= 1 << state_index if state_index
