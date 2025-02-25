@@ -9,14 +9,14 @@ module Ruptr
     def initialize
       @results = {}
       @failed = false
-      @total_assertions = 0
+      @total_assertions = @total_ineffective_assertions = 0
       @total_test_cases = 0
       @total_test_cases_by_status = Hash.new(0)
       @total_test_groups = 0
       @total_test_groups_by_status = Hash.new(0)
     end
 
-    attr_reader :total_assertions,
+    attr_reader :total_assertions, :total_ineffective_assertions,
                 :total_test_cases,
                 :total_test_groups
 
@@ -63,7 +63,8 @@ module Ruptr
       else
         raise ArgumentError
       end
-      @total_assertions += tr.assertions || 0
+      @total_assertions += tr.assertions
+      @total_ineffective_assertions += tr.ineffective_assertions
       @failed ||= tr.failed?
       @results[te] = tr
     end

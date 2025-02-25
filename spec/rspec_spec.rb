@@ -17,14 +17,16 @@ module Ruptr
     def configure(...) = adapter.configure(...)
     def example_group(...) = rspec.example_group(...)
 
-    def check_report(passed: 0, skipped: 0, failed: 0, asserts: nil)
+    def check_report(passed: 0, skipped: 0, failed: 0, asserts: nil, ineffective_asserts: nil)
       assert_equal passed + skipped + failed, report.total_test_cases, "total test cases"
       assert_equal passed, report.total_passed_test_cases, "passed test cases"
       assert_equal skipped, report.total_skipped_test_cases, "skipped test cases"
       assert_equal failed, report.total_failed_test_cases, "failed test cases"
       assert_equal failed.zero?, report.passed?
       assert_equal !failed.zero?, report.failed?
-      assert_equal asserts, report.total_assertions, "total assertions" if asserts
+      assert_equal asserts, report.total_assertions, "total assertions" unless asserts.nil?
+      assert_equal ineffective_asserts, report.total_ineffective_assertions, "total ineffective assertions" \
+        unless ineffective_asserts.nil?
     rescue
       print_report
       raise

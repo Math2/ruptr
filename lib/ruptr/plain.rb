@@ -207,7 +207,11 @@ module Ruptr
         a << "#{'%0.6f' % tr.user_time} user" if tr.user_time
         a << "#{'%0.6f' % tr.system_time} system" if tr.system_time
         line("Processor time:  #{a.join(', ')}") unless a.empty?
-        line("Assertion count: #{tr.assertions}") if tr.assertions && !tr.assertions.zero?
+        a = []
+        a << "#{tr.assertions}" unless tr.assertions.zero?
+        a << colorize("#{tr.ineffective_assertions} ineffective", color: :yellow) \
+          unless tr.ineffective_assertions.zero?
+        line("Assertion count: #{a.join(', ')}") unless a.empty?
         newline
       end
 
@@ -346,7 +350,11 @@ module Ruptr
 
       s = +''
       s << "Ran #{@total_test_cases} test cases"
-      s << " with #{@total_assertions} assertions" unless @total_assertions.zero?
+      a = []
+      a << "#{@total_assertions} assertions" unless @total_assertions.zero?
+      a << colorize("#{@total_ineffective_assertions} ineffective assertions", color: :yellow) \
+        unless @total_ineffective_assertions.zero?
+      s << " with #{a.join(' and ')}" unless a.empty?
       s << ": "
 
       s << colorize("#{@total_passed_cases} passed",
@@ -402,7 +410,7 @@ module Ruptr
       @total_failed_groups = @total_blocked_groups =
         @total_skipped_groups = @total_skipped_pending_groups =
           @total_passed_groups = @total_passed_warned_groups = 0
-      @total_assertions = 0
+      @total_assertions = @total_ineffective_assertions = 0
     end
 
     def finish_plan(fields)
@@ -419,6 +427,7 @@ module Ruptr
       @total_test_cases += 1 if te.test_case?
       @total_test_groups += 1 if te.test_group?
       @total_assertions += tr.assertions
+      @total_ineffective_assertions += tr.ineffective_assertions
       render_element(te, tr)
     end
   end

@@ -22,14 +22,27 @@ module Ruptr
       @_assertions = n
     end
 
+    def ruptr_ineffective_assertions_count
+      @ruptr_ineffective_assertions_count || 0
+    end
+
+    def ruptr_ineffective_assertions_count=(n)
+      @ruptr_ineffective_assertions_count = n
+    end
+
     def ruptr_internal_variable?(name)
-      name == :@_assertions || name == :@ruptr_context
+      name == :@_assertions || name == :@ruptr_ineffective_assertions_count || name == :@ruptr_context
+    end
+
+    private def ruptr_update_context
+      ruptr_context.assertions_count += ruptr_assertions_count
+      ruptr_context.ineffective_assertions_count += ruptr_ineffective_assertions_count
     end
 
     def ruptr_wrap_test_instance
       yield
     ensure
-      ruptr_context.assertions_count += ruptr_assertions_count
+      ruptr_update_context
     end
 
     def inspect = "#<#{self.class}: #{ruptr_context.test_element}>"

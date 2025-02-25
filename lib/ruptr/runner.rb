@@ -14,11 +14,11 @@ module Ruptr
       @runner = runner
       @test_element = test_element
       @parent = parent
-      @assertions_count = 0
+      @assertions_count = @ineffective_assertions_count = 0
     end
 
     attr_reader :runner, :test_element, :parent
-    attr_accessor :assertions_count
+    attr_accessor :assertions_count, :ineffective_assertions_count
   end
 
   class TestElement
@@ -47,9 +47,10 @@ module Ruptr
         end
       end
       assertions = context.assertions_count
+      ineffective_assertions = context.ineffective_assertions_count
       TestResult.new(status,
                      exception:,
-                     assertions:,
+                     assertions:, ineffective_assertions:,
                      user_time:, system_time:,
                      captured_stdout:, captured_stderr:)
     end

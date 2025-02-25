@@ -183,7 +183,7 @@ Metrics/ClassLength:
   Exclude:
     - 'test/rspec_test.rb'
 
-# Offense count: 2
+# Offense count: 3
 # Configuration parameters: AllowedMethods, AllowedPatterns, Max.
 Metrics/CyclomaticComplexity:
   Exclude:
@@ -600,6 +600,12 @@ Style/RedundantHeredocDelimiterQuotes:
     - 'test/minitest_test.rb'
     - 'test/rspec_test.rb'
     - 'test/testunit_test.rb'
+
+# Offense count: 1
+# This cop supports unsafe autocorrection (--autocorrect-all).
+Style/RedundantInterpolation:
+  Exclude:
+    - 'lib/ruptr/plain.rb'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).

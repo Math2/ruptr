@@ -11,7 +11,7 @@ module Ruptr
 
     def initialize(status,
                    exception: nil,
-                   assertions: 0,
+                   assertions: 0, ineffective_assertions: 0,
                    user_time: nil, system_time: nil,
                    captured_stdout: nil, captured_stderr: nil)
       raise ArgumentError unless VALID_STATUSES.include?(status)
@@ -19,6 +19,7 @@ module Ruptr
       @status = status
       @exception = exception
       @assertions = assertions
+      @ineffective_assertions = ineffective_assertions
       @user_time = user_time
       @system_time = system_time
       @captured_stdout = captured_stdout
@@ -27,7 +28,7 @@ module Ruptr
 
     attr_reader :status,
                 :exception,
-                :assertions,
+                :assertions, :ineffective_assertions,
                 :user_time, :system_time,
                 :captured_stdout, :captured_stderr
 
