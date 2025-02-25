@@ -982,7 +982,7 @@ module Ruptr
       end
 
       def test_assertions
-        rspec(<<~RUBY)
+        rspec(<<~'RUBY')
           require 'rspec/autorun'
           RSpec.configure do |config|
             config.expect_with(:minitest)
@@ -997,7 +997,7 @@ module Ruptr
       end
 
       def test_global_shared_context
-        rspec(<<~RUBY)
+        rspec(<<~'RUBY')
           require 'rspec/autorun'
           RSpec.shared_context "test" do
             let(:hello) { :world }
@@ -1011,7 +1011,7 @@ module Ruptr
       end
 
       def test_matchers
-        rspec(<<~RUBY)
+        rspec(<<~'RUBY')
           require 'rspec/autorun'
           RSpec.configure do |config|
             config.expect_with :rspec
@@ -1026,7 +1026,7 @@ module Ruptr
       end
 
       def test_capybara
-        rspec(<<~RUBY)
+        rspec(<<~'RUBY')
           require 'rspec/autorun'
           require 'capybara/rspec'
           app = ->(_env) { [200, { 'content_type' => 'text/html' }, ["<p>Hello, world!</p>\n"]] }

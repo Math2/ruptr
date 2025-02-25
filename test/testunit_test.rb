@@ -15,7 +15,7 @@ module Ruptr
       end
 
       def test_1
-        testunit(<<~RUBY)
+        testunit(<<~'RUBY')
           require 'test/unit/autorun'
           class MyTest < Test::Unit::TestCase
             def test_1 = assert true

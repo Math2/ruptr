@@ -409,7 +409,7 @@ module Ruptr
       end
 
       def test_1
-        minitest(<<~RUBY)
+        minitest(<<~'RUBY')
           require 'minitest/autorun'
           class Test < Minitest::Test
             def test_1 = pass
