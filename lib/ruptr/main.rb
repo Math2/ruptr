@@ -209,10 +209,12 @@ module Ruptr
       @pager_mode && !@output_path && $stdout.tty?
     end
 
+    private def default_pager_cmd = 'LESS=-R less'
+
     private def open_output
       fail if @output_file
       if pager_mode? && (!@pager_only_on_problem || test_suite_problem?)
-        @output_file = IO.popen(ENV['PAGER'] || 'more', 'w',
+        @output_file = IO.popen(ENV['PAGER'] || default_pager_cmd, 'w',
                                 external_encoding: $stdout.external_encoding)
         @output_file_close = true
       else
