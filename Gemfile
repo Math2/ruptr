@@ -12,6 +12,7 @@ group :test do
   gem 'capybara'
   gem 'rr'
   gem 'rspec-expectations'
+  gem 'test-unit-ruby-core'
 end
 
 group :development do

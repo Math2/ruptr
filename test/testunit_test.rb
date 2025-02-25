@@ -47,13 +47,15 @@ module Ruptr
       end
     end
 
-    class TestUnitAutorunTests < Minitest::Test
+    class TestUnitAutorunTestsBase < Minitest::Test
       include AutoRunHelpers
 
       def testunit(source, **opts)
         spawn_test_interpreter(['-I', 'lib', '-r', 'ruptr/testunit/override'], source, **opts)
       end
+    end
 
+    class TestUnitAutorunMiscTests < TestUnitAutorunTestsBase
       def test_1
         testunit(<<~'RUBY')
           require 'test/unit/autorun'
@@ -67,6 +69,56 @@ module Ruptr
           end
         RUBY
         check_summary(passed: 3, skipped: 1, failed: 2, asserts: 5)
+      end
+    end
+
+    class TestUnitAutorunCoreAssertionsTests < TestUnitAutorunTestsBase
+      def test_assert_valid_syntax
+        testunit(<<~'RUBY')
+          require 'test/unit/autorun'
+          require 'core_assertions'
+          class MyTest < Test::Unit::TestCase
+            include Test::Unit::CoreAssertions
+            def test_syntax_check
+              assert_valid_syntax "1 + 2 + 3"
+            end
+          end
+        RUBY
+        check_summary(passed: 1)
+      end
+
+      if defined?(::Ractor)
+        def test_assert_ractor
+          testunit(<<~'RUBY')
+            require 'test/unit/autorun'
+            require 'core_assertions'
+            class MyTest < Test::Unit::TestCase
+              include Test::Unit::CoreAssertions
+              def test_assert_ractor
+                assert_ractor <<~END
+                  assert true
+                  assert !false
+                  assert_equal 6, 1 + 2 + 3
+                END
+              end
+            end
+          RUBY
+          check_summary(passed: 1)
+        end
+      end
+
+      def test_assert_warning
+        testunit(<<~'RUBY')
+          require 'test/unit/autorun'
+          require 'core_assertions'
+          class MyTest < Test::Unit::TestCase
+            include Test::Unit::CoreAssertions
+            def test_assert_warning
+              assert_warning("test warning\n") { warn "test warning" }
+            end
+          end
+        RUBY
+        check_summary(passed: 1, asserts: 1)
       end
     end
   end

@@ -67,6 +67,8 @@ module Ruptr
 
           assertions_module = def_module(:Assertions) do
             include(Adapters::RuptrAssertions)
+            # NOTE: Gem test-unit-ruby-core's "core_assertions" library will define some methods
+            # directly in Test::Unit::Assertions.
           end
 
           def_class(:TestCase) do

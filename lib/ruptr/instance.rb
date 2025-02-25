@@ -12,7 +12,7 @@ module Ruptr
 
     # Common methods to let multiple assertions/expectations libraries use a shared assertions
     # counter.  The @_assertions instance variable name was chosen to be compatible with
-    # Test::Unit::Assertions::CoreAssertions which accesses it directly.
+    # Test::Unit::CoreAssertions (gem test-unit-ruby-core) which accesses it directly.
 
     def ruptr_assertions_count
       @_assertions || 0
