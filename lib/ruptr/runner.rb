@@ -55,18 +55,17 @@ module Ruptr
 
   class TestCase
     def run_result(runner, group_context)
+      return TestResult.new(:skipped) unless runnable?
       context = Context.new(runner, self, group_context)
       make_result(context) { run_context(context) }
     end
   end
 
   class TestGroup
-    def must_wrap? = block?
-
     def wrap_result(runner, parent_context)
       context = Context.new(runner, self, parent_context)
       make_result(context) do
-        if must_wrap?
+        if wrappable?
           wrap_context(context) { yield context }
         else
           yield context
@@ -187,7 +186,7 @@ module Ruptr
             batched_cases << tc
           end
           tg.each_test_subgroup do |tg|
-            if tg.must_wrap?
+            if tg.wrappable?
               pending_groups << tg
             else
               @sink.submit_group(tg) do

@@ -31,6 +31,10 @@ module Ruptr
         test_suite { expect_failed test_case { fail } }
       end
 
+      it "considers test case without a block to be skipped" do
+        test_suite { expect_skipped test_case }
+      end
+
       describe "output capture" do
         %i[passed failed skipped].each do |status|
           it "can capture #{status} test case output" do

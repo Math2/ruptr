@@ -62,6 +62,8 @@ module Ruptr
   class TestCase < TestElement
     def test_case? = true
 
+    def runnable? = block?
+
     def run_context(context) = @block.call(context)
   end
 
@@ -73,6 +75,8 @@ module Ruptr
     end
 
     def test_group? = true
+
+    def wrappable? = block?
 
     def wrap_context(context, &) = @block.call(context, &)
 
