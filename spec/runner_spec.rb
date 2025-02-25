@@ -121,7 +121,7 @@ module Ruptr
         end
       end
 
-      it "blocks nested tests when test group wrapper fails" do
+      it "blocks nested tests when test group wrapper fails before yielding" do
         test_suite do
           expect_passed
           test_case { }
@@ -129,6 +129,25 @@ module Ruptr
           test_group do
             group_wrap { fail }
             expect_blocked
+            test_case { }
+            test_group do
+              group_wrap { |&wrap| wrap.call }
+              test_case { }
+            end
+          end
+          expect_passed
+          test_case { }
+        end
+      end
+
+      it "does not block nested tests when test group wrapper fails after yielding" do
+        test_suite do
+          expect_passed
+          test_case { }
+          expect_failed
+          test_group do
+            group_wrap { |&wrap| wrap.call; fail }
+            expect_passed
             test_case { }
             test_group do
               group_wrap { |&wrap| wrap.call }
