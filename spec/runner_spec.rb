@@ -55,10 +55,10 @@ module Ruptr
         end
       end
 
-      it "does not abort whole test suite if a test group state wrapper fails" do
+      it "blocks nested tests when test group wrapper fails" do
         ts = TestSuite.new
         tg1 = TestGroup.new { fail }
-        tg2 = TestGroup.new { }
+        tg2 = TestGroup.new { |&wrap| wrap.call }
         tc1 = TestCase.new { }
         tc2 = TestCase.new { }
         tc3 = TestCase.new { }
@@ -86,6 +86,39 @@ module Ruptr
         assert_equal 1, report.total_passed_test_groups
         assert_equal 1, report.total_failed_test_groups
         assert_equal 1, report.total_blocked_test_groups
+      end
+
+      it "skips nested tests when test group wrapper does not yield" do
+        ts = TestSuite.new
+        tg1 = TestGroup.new { } # does not yield
+        tg2 = TestGroup.new { |&wrap| wrap.call }
+        tc1 = TestCase.new { }
+        tc2 = TestCase.new { }
+        tc3 = TestCase.new { }
+        tc4 = TestCase.new { }
+        ts.add_test_case(tc1)
+        ts.add_test_subgroup(tg1)
+        tg1.add_test_case(tc2)
+        tg1.add_test_subgroup(tg2)
+        tg2.add_test_case(tc3)
+        ts.add_test_case(tc4)
+        report = runner.run_report(ts)
+        assert_predicate report, :passed?
+        assert_predicate report[ts], :passed?
+        assert_predicate report[tc1], :passed?
+        assert_predicate report[tg1], :passed?
+        assert_predicate report[tc2], :skipped?
+        assert_predicate report[tg2], :skipped?
+        assert_predicate report[tc3], :skipped?
+        assert_predicate report[tc4], :passed?
+        assert_equal 4, report.total_test_cases
+        assert_equal 3, report.total_test_groups
+        assert_equal 2, report.total_passed_test_cases
+        assert_equal 2, report.total_skipped_test_cases
+        assert_equal 0, report.total_failed_test_cases
+        assert_equal 2, report.total_passed_test_groups
+        assert_equal 1, report.total_skipped_test_groups
+        assert_equal 0, report.total_failed_test_groups
       end
 
       context "with a simple dummy test suite" do
