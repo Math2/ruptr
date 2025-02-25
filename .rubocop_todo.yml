@@ -89,12 +89,13 @@ Lint/MissingSuper:
     - 'lib/ruptr/capture_output.rb'
     - 'test/runner_test.rb'
 
-# Offense count: 51
+# Offense count: 57
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Lint/NestedMethodDefinition:
   Exclude:
     - 'test/minitest_test.rb'
     - 'test/rspec_test.rb'
+    - 'test/testunit_test.rb'
 
 # Offense count: 7
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -220,10 +221,11 @@ Minitest/SkipWithoutReason:
     - 'test/minitest_test.rb'
     - 'test/rspec_test.rb'
 
-# Offense count: 3
+# Offense count: 6
 Minitest/UselessAssertion:
   Exclude:
     - 'test/rspec_test.rb'
+    - 'test/testunit_test.rb'
 
 # Offense count: 1
 # Configuration parameters: NamePrefix, ForbiddenPrefixes, AllowedMethods, MethodDefinitionMacros, UseSorbetSigs.
@@ -242,7 +244,7 @@ Naming/RescuedExceptionsVariableName:
   Exclude:
     - 'lib/ruptr/runner.rb'
 
-# Offense count: 149
+# Offense count: 155
 # Configuration parameters: EnforcedStyle, CheckMethodNames, CheckSymbols, AllowedIdentifiers, AllowedPatterns.
 # SupportedStyles: snake_case, normalcase, non_integer
 # AllowedIdentifiers: capture3, iso8601, rfc1123_date, rfc822, rfc2822, rfc3339, x86_64
@@ -530,7 +532,7 @@ Style/IfUnlessModifier:
   Exclude:
     - 'lib/ruptr/tap.rb'
 
-# Offense count: 35
+# Offense count: 36
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: IgnoreMacros, AllowedMethods, AllowedPatterns, IncludedMacros, AllowParenthesesInMultilineCall, AllowParenthesesInChaining, AllowParenthesesInCamelCaseMethod, AllowParenthesesInStringInterpolation, EnforcedStyle.
 # SupportedStyles: require_parentheses, omit_parentheses
@@ -539,6 +541,7 @@ Style/MethodCallWithArgsParentheses:
     - 'spec/assertions_spec.rb'
     - 'spec/rspec_spec.rb'
     - 'test/rspec_test.rb'
+    - 'test/testunit_test.rb'
 
 # Offense count: 4
 Style/MultilineBlockChain:
@@ -590,7 +593,7 @@ Style/PerlBackrefs:
   Exclude:
     - 'lib/ruptr/plain.rb'
 
-# Offense count: 5
+# Offense count: 7
 # This cop supports safe autocorrection (--autocorrect).
 Style/RedundantHeredocDelimiterQuotes:
   Exclude:
@@ -652,7 +655,7 @@ Style/StringLiteralsInInterpolation:
   Exclude:
     - 'spec/surrogate_exception_spec.rb'
 
-# Offense count: 3
+# Offense count: 4
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: ExactNameMatch, AllowPredicates, AllowDSLWriters, IgnoreClassMethods, AllowedMethods.
 # AllowedMethods: to_ary, to_a, to_c, to_enum, to_h, to_hash, to_i, to_int, to_io, to_open, to_path, to_proc, to_r, to_regexp, to_str, to_s, to_sym
@@ -661,6 +664,7 @@ Style/TrivialAccessors:
     - 'lib/ruptr/rspec/example_group.rb'
     - 'test/minitest_test.rb'
     - 'test/rspec_test.rb'
+    - 'test/testunit_test.rb'
 
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
