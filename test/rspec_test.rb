@@ -996,6 +996,20 @@ module Ruptr
         check_summary(passed: 1, skipped: 1, failed: 1, asserts: 2)
       end
 
+      def test_global_shared_context
+        rspec(<<~RUBY)
+          require 'rspec/autorun'
+          RSpec.shared_context "test" do
+            let(:hello) { :world }
+          end
+          RSpec.describe "something" do
+            include_context "test"
+            example { hello == :world or fail }
+          end
+        RUBY
+        check_summary(passed: 1)
+      end
+
       def test_matchers
         rspec(<<~RUBY)
           require 'rspec/autorun'
