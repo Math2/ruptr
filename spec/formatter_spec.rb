@@ -156,7 +156,7 @@ module Ruptr
     describe Formatter::Plain do
       include_context "with formatter StringIO output"
 
-      (-3..3).each do |verbosity|
+      (-3..4).each do |verbosity|
         context "with verbosity #{verbosity}" do
           context "without colorizer" do
             let(:formatter) { described_class.new(string_io, verbosity:) }

@@ -280,8 +280,15 @@ module Ruptr
           title = "WARNING ##{@warned_index}"
           @warned_index += 1
           color = :yellow
+        elsif !tr.ineffective_assertions.zero?
+          @total_passed_ineffective_cases += 1 if te.test_case?
+          @total_passed_ineffective_groups += 1 if te.test_group?
+          return unless verbose?(2)
+          title = "INEFFECTIVE ##{@ineffective_index}"
+          @ineffective_index += 1
+          color = :yellow
         else
-          return unless verbose?(3)
+          return unless verbose?(4)
           title = "PASSED ##{@passed_index}"
           @passed_index += 1
           color = :green
@@ -402,14 +409,17 @@ module Ruptr
       @heading_count = 0
       @unknown_index = @failed_index = @blocked_index =
                          @skipped_index = @pending_index =
-                           @passed_index = @warned_index = 1
+                           @passed_index = @warned_index =
+                             @ineffective_index = 1
       @total_test_cases = @total_test_groups = 0
       @total_failed_cases = @total_blocked_cases =
         @total_skipped_cases = @total_skipped_pending_cases =
-          @total_passed_cases = @total_passed_warned_cases = 0
+          @total_passed_cases = @total_passed_warned_cases =
+            @total_passed_ineffective_cases = 0
       @total_failed_groups = @total_blocked_groups =
         @total_skipped_groups = @total_skipped_pending_groups =
-          @total_passed_groups = @total_passed_warned_groups = 0
+          @total_passed_groups = @total_passed_warned_groups =
+            @total_passed_ineffective_groups = 0
       @total_assertions = @total_ineffective_assertions = 0
     end
 
