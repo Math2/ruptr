@@ -38,13 +38,14 @@ Layout/LineLength:
     - 'lib/ruptr/main.rb'
     - 'test/test_helpers.rb'
 
-# Offense count: 9
+# Offense count: 12
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Lint/AmbiguousBlockAssociation:
   Exclude:
     - 'spec/assertions_spec.rb'
     - 'spec/rspec_spec.rb'
+    - 'spec/runner_spec.rb'
     - 'spec/surrogate_exception_spec.rb'
 
 # Offense count: 8
@@ -59,7 +60,7 @@ Lint/AmbiguousRegexpLiteral:
   Exclude:
     - 'spec/assertions_spec.rb'
 
-# Offense count: 40
+# Offense count: 44
 # Configuration parameters: AllowComments, AllowEmptyLambdas.
 Lint/EmptyBlock:
   Exclude:
@@ -213,7 +214,7 @@ Minitest/AssertEmptyLiteral:
   Exclude:
     - 'test/suite_test.rb'
 
-# Offense count: 4
+# Offense count: 2
 Minitest/SkipWithoutReason:
   Exclude:
     - 'test/minitest_test.rb'
@@ -401,13 +402,14 @@ RSpec/MultipleMemoizedHelpers:
   Exclude:
     - 'spec/rspec_spec.rb'
 
-# Offense count: 273
+# Offense count: 274
 # Configuration parameters: AllowedPatterns.
 # AllowedPatterns: ^expect_, ^assert_
 RSpec/NoExpectationExample:
   Exclude:
     - 'spec/assertions_spec.rb'
     - 'spec/rspec_spec.rb'
+    - 'spec/runner_spec.rb'
 
 # Offense count: 21
 RSpec/PendingWithoutReason:
@@ -528,7 +530,7 @@ Style/IfUnlessModifier:
   Exclude:
     - 'lib/ruptr/tap.rb'
 
-# Offense count: 53
+# Offense count: 35
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: IgnoreMacros, AllowedMethods, AllowedPatterns, IncludedMacros, AllowParenthesesInMultilineCall, AllowParenthesesInChaining, AllowParenthesesInCamelCaseMethod, AllowParenthesesInStringInterpolation, EnforcedStyle.
 # SupportedStyles: require_parentheses, omit_parentheses

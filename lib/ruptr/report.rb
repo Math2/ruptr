@@ -23,9 +23,12 @@ module Ruptr
     def failed? = @failed
     def passed? = !failed?
 
+    def total_test_cases_by_status(status) = @total_test_cases_by_status[status]
+    def total_test_groups_by_status(status) = @total_test_groups_by_status[status]
+
     TestResult::VALID_STATUSES.each do |status|
-      define_method(:"total_#{status}_test_cases") { @total_test_cases_by_status[status] }
-      define_method(:"total_#{status}_test_groups") { @total_test_groups_by_status[status] }
+      define_method(:"total_#{status}_test_cases") { total_test_cases_by_status(status) }
+      define_method(:"total_#{status}_test_groups") { total_test_groups_by_status(status) }
     end
 
     def each_test_element_result(klass = TestElement, &)
