@@ -81,6 +81,12 @@ module Ruptr
           n = Runner::Parallel.default_parallel_jobs unless n.positive?
           @parallel_jobs = n
         end
+        op.on('--debuggable') do
+          @pager_mode = false
+          @capture_output = false
+          @runner_name = :single
+          @parallel_jobs = 1
+        end
         op.on('-e', '--example=STRING') { |s| @include_names << Regexp.new(Regexp.quote(s)) }
         op.on('-E', '--example-matches=REGEXP') { |s| @include_names << Regexp.new(s) }
         op.on('-t', '--tag=TAG[:VALUE]') do |s|
