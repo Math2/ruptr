@@ -19,6 +19,9 @@ module Ruptr
 
     attr_reader :runner, :test_element, :parent
     attr_accessor :assertions_count, :ineffective_assertions_count
+
+    def bump_assertions_count = self.assertions_count += 1
+    def bump_ineffective_assertions_count = self.ineffective_assertions_count += 1
   end
 
   class TestElement

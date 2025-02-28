@@ -10,18 +10,18 @@ module Ruptr
     include ::RSpec::Matchers
 
     def expect(...)
-      self.ruptr_assertions_count += 1
+      ruptr_context.bump_assertions_count
       super
     end
 
     module Helpers
       def should(matcher, message = nil)
-        self.ruptr_assertions_count += 1
+        ruptr_context.bump_assertions_count
         ::RSpec::Expectations::PositiveExpectationHandler.handle_matcher(subject, matcher, message)
       end
 
       def should_not(matcher, message = nil)
-        self.ruptr_assertions_count += 1
+        ruptr_context.bump_assertions_count
         ::RSpec::Expectations::NegativeExpectationHandler.handle_matcher(subject, matcher, message)
       end
 

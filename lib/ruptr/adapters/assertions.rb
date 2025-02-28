@@ -18,7 +18,7 @@ module Ruptr
     include TestInstance
     include Ruptr::Assertions
 
-    def bump_assertions_count = self.ruptr_assertions_count += 1
+    def bump_assertions_count = ruptr_context.bump_assertions_count
     def passthrough_exception?(ex) = ex.is_a?(SkippedExceptionMixin) || super
     def assertion_exception?(ex) = ex.is_a?(AssertionErrorMixin) || super
 
@@ -33,7 +33,7 @@ module Ruptr
     end
 
     def assertion_golden_value_missing(_k)
-      self.ruptr_ineffective_assertions_count += 1
+      ruptr_context.bump_ineffective_assertions_count
     end
 
     def assertion_yield_golden_value(k)

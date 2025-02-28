@@ -84,7 +84,7 @@ module Ruptr
             end
 
             def prove_it
-              flunk("Prove it!") if self.class.prove_it? && ruptr_assertions_count.zero?
+              flunk("Prove it!") if self.class.prove_it? && ruptr_context.assertions_count.zero?
             end
 
             def setup = nil
