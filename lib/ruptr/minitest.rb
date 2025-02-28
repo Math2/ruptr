@@ -47,7 +47,7 @@ module Ruptr
           const_set(:Assertion, Ruptr::Assertions::AssertionError)
 
           def_module(:Assertions) do
-            include Adapters::RuptrAssertions
+            include Ruptr::Assertions
           end
 
           def_module(:Hooks) do
@@ -70,6 +70,10 @@ module Ruptr
           adapter_module = self
 
           def_class(:Test) do
+            include TestInstance
+            include adapter_module::Assertions
+            include Adapters::RuptrAssertions
+
             def self.parallelize_me! = nil
 
             def self.prove_it? = false
@@ -89,9 +93,6 @@ module Ruptr
 
             def setup = nil
             def teardown = nil
-
-            include TestInstance
-            include adapter_module::Assertions
           end
         end
       end
