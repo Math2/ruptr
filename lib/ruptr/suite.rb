@@ -56,7 +56,8 @@ module Ruptr
       orphanize!
     end
 
-    def to_s = "#<#{self.class}: #{description.inspect}>"
+    def inspect = "#<#{self.class}: #{description.inspect}>"
+    def to_s = "#{self.class}: #{description}"
   end
 
   class TestCase < TestElement

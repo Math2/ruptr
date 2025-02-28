@@ -19,5 +19,6 @@ module Ruptr
     def ruptr_wrap_test_instance = yield
 
     def inspect = "#<#{self.class}: #{ruptr_context.test_element}>"
+    def to_s = inspect
   end
 end
