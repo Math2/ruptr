@@ -33,7 +33,7 @@ module Ruptr
     module AutoRunHelpers
       def spawn_test_interpreter(extra_args, source)
         cmd = [RbConfig.ruby, *extra_args]
-        out = IO.popen({ 'RUPTR_VERBOSE' => '-2' }, cmd, 'r+') do |io|
+        out = IO.popen(cmd, 'r+') do |io|
           io.write(source)
           io.close_write
           io.read
@@ -46,7 +46,7 @@ module Ruptr
 
       def check_summary(passed: 0, skipped: 0, failed: 0, asserts: nil)
         m = assert_match %r{\ARan (\d+)(?:/(\d+))? test cases(?: with (\d+) assertions)?: (\d+) passed(?:, (\d+) skipped)?(?:, (\d+) failed)?\.\Z},
-                         @test_output
+                         @test_output.lines.last
         actual_total_test_cases_ran = m[1].to_i
         actual_total_test_cases_in_suite = (m[2] || m[1]).to_i
         actual_total_asserts = m[3].to_i
