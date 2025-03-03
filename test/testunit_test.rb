@@ -2,7 +2,7 @@
 
 require_relative 'test_helpers'
 require 'minitest/autorun'
-require 'ruptr/minitest'
+require 'ruptr/testunit'
 require 'ruptr/runner'
 
 module Ruptr
